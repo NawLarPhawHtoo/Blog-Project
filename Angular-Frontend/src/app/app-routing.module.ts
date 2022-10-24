@@ -18,7 +18,6 @@ import { PostEditComponent } from './components/post/post-edit/post-edit.compone
 import { AuthGuard } from './guards/auth.guard';
 import { BycategoryComponent } from './components/bycategory/bycategory.component';
 import { DetailsComponent } from './components/details/details.component';
-import { AdminComponent } from './components/admin/admin.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LogoutComponent } from './pages/logout/logout.component';
 
@@ -29,12 +28,6 @@ const routes: Routes = [
   {
     path: 'home', component: HomeComponent,
     data:{title:'Blog Home'}
-  },
-  {
-    path: 'admin',
-    canActivate: [AuthGuard],
-    component: AdminComponent,
-    data: { title: 'Blog Admin' }
   },
   {
     path: 'bycategory/:id',

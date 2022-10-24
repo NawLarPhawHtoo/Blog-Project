@@ -51,7 +51,6 @@ import { HomeComponent } from './components/home/home.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { BycategoryComponent } from './components/bycategory/bycategory.component';
 import { DetailsComponent } from './components/details/details.component';
-import { AdminComponent } from './components/admin/admin.component';
 import { CKEditorModule } from 'ckeditor4-angular';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
@@ -79,7 +78,6 @@ import { LogoutComponent } from './pages/logout/logout.component';
     HomeComponent,
     BycategoryComponent,
     DetailsComponent,
-    AdminComponent,
     ProfileComponent,
     LogoutConfirmComponent,
     LogoutComponent

@@ -27,36 +27,5 @@ export class AuthGuard implements CanActivate {
     this.authService.redirectUrl = url;
     this.router.navigate(['/login']);
     return false;
-//    let val: any = localStorage.getItem('isUserLoggedIn');
-//
-//    if (val == true) {
-//      if (url == "/login") {
-//        this.router.parseUrl('/home');
-//      } else {
-//        return true;
-//      }
-//    } else {
-//      return this.router.parseUrl('/login');
-//    }
   }
-//    let val:any=localStorage.getItem('isUserLoggedIn');
-//    let loggedInUser:any=JSON.parse(localStorage.getItem('loginUser') || '');
-//
-//    if(val=='true'){
-//      if(route.data['roles'] && route.data['roles'].indexOf(loggedInUser.type)=== -1){
-//        this.router.navigate(['/']);
-//        return false;
-//      }
-//      return true;
-//    }
-//    this.router.navigate(['/login'],{queryParams:{returnUrl:url}});
-//    return false;
-//
-//  }
-//
-//  checkType(url:string):any{
-//    let val:any=localStorage.getItem('isUserLoggedIn');
-//    let loggedInUser:any=JSON.parse(localStorage.getItem('loginUser') ||'');
-//  }
-
 }

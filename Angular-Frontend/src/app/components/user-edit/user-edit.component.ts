@@ -32,7 +32,7 @@ export class UserEditComponent implements OnInit {
   basic: any;
   contact: any;
   education: any;
- 
+
   constructor(
     private dialogRef: MatDialogRef<UserEditComponent>,
     private userService: UserService,
@@ -53,10 +53,10 @@ export class UserEditComponent implements OnInit {
   pickDate: any;
   today = new Date();
 
-  
+
   gender = [{ enum: 'Male' }, { enum: 'Female' }, { enum: 'Other' }];
 
-  
+
   skills = [{ enum: 'Programming' }, { enum: 'Language' }, { enum: 'Others' }];
 
   experiences = [
@@ -111,7 +111,7 @@ export class UserEditComponent implements OnInit {
     });
 
   }
-  
+
   onClickUpdateUser() {
     //   if (this.confirmView == true) {
     const id = this.data._id;
@@ -119,7 +119,7 @@ export class UserEditComponent implements OnInit {
     console.log(this.formData.value);
 
     const formData = new FormData();
-    
+
     formData.append('name', this.formData.value.basic.name);
     formData.append('email', this.formData.value.basic.email);
     formData.append('password',  this.formData.value.basic.password);
@@ -136,40 +136,8 @@ export class UserEditComponent implements OnInit {
       console.log(res);
      this.dialogRef.close('update');
     });
-  
+
   }
-
-  // if (this.formData.valid) {
-  //   this.formData.controls['profile'].disable();
-  //   this.formData.controls['basic'].disable();
-  //   this.formData.controls['contact'].disable();
-  //   this.formData.controls['education'].disable();
-  // this.formData.controls['name'].disable();
-  // this.formData.controls['type'].disable();
-  // this.formData.controls['phone'].disable();
-  // this.formData.controls['email'].disable();
-  // this.formData.controls['birthday'].disable();
-  // this.formData.controls['gender'].disable();
-  // this.formData.controls['address'].disable();
-  //     this.confirmView = true;
-  //   }
-  // }
-
-  // public onClear() {
-  //   if (this.confirmView === true) {
-  //     this.formData.controls['profile'].enable();
-  //     this.formData.controls['name'].enable();
-  //     this.formData.controls['type'].enable();
-  //     this.formData.controls['phone'].enable();
-  //     this.formData.controls['email'].enable();
-  //     this.formData.controls['birthday'].enable();
-  //     this.formData.controls['gender'].enable();
-  //     this.formData.controls['address'].enable();
-  //     this.confirmView = false;
-  //   } else {
-  //     this.formData.reset();
-  //   }
-  // }
 
   get basicForm() {
     return this.formData.get('basic') as FormGroup;
