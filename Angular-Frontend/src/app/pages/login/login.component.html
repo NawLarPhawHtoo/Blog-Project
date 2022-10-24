@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Log In</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form action="post" [formGroup]="formData" (ngSubmit)="onClickLogin(formData.value)">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input type="text" matInput class="form-control" formControlName="email"/>
+          <mat-icon class="color" matPrefix>email</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Password</mat-label>
+          <mat-icon class="color" matPrefix>lock</mat-icon>
+          <!-- <input type="password" matInput class="form-control" formControlName="password"> -->
+          <input matInput [type]="showPassword ? 'text' : 'password'" name="password" class="form-control" formControlName="password">
+          <mat-icon matSuffix (click)="togglePasswordVisibility()">
+             {{showPassword?'visibility_off':'visibility'}}
+            </mat-icon>
+        </mat-form-field>
+        <button mat-raised-button color="primary" class="full-width">Log In</button>
+        <button mat-raised-button color="primary" (click)="signup()" class="signup">Sign Up</button>
+      </form>
+    </mat-card-content>
+  </mat-card>

@@ -1,0 +1,42 @@
+table {
+  width: 90%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  min-width: 500px;
+  margin: 0 auto;
+}
+
+mat-paginator {
+  width: 90%;
+  margin: 0 auto;
+}
+
+th.mat-header-cell {
+  text-align: left;
+  max-width: 300px;
+  color: rgb(238, 77, 23);
+}
+
+td.mat-cell  {
+  text-align: left;
+}
+
+.mat-card  {
+  margin: 0 auto;
+  text-align: center;
+  box-shadow: none;
+}
+
+.profileimg {
+  height: 50%;
+  width: 50%;
+}
+
+.td-profile {
+  width: 100px;
+}
+
+.add-user {
+  float: right;
+  margin: 20px;
+}

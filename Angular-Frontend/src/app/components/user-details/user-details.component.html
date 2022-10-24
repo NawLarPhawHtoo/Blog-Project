@@ -1,0 +1,25 @@
+<div class="col-sm" style="text-align: right;"> 
+  <button type="button" class="btn btn-primary" (click)="goToList()">Go to List</button>  
+  <button type="button" class="btn btn-primary" (click)="goToEdit">Edit</button> 
+</div>
+<mat-card>
+  <mat-card-header style="color: rgb(63,81,181);">User Information Details</mat-card-header>
+  <mat-card-content>
+  <div style="text-align: center;" >
+    <!-- <p style="color: rgb(63,81,181);">Almost done! Please check your information!</p> -->
+    <div *ngIf="profile" class="personal-info-right">
+      <img [src]="profile" class="profile-img" />
+    </div>
+    <p>Your Name : {{ name}} </p>
+    <p>Email : {{email}} </p>
+    <p>Password : {{ password}} </p>
+    <p>Date of Birthday : {{ birthday}}</p>
+    <p>Gender : {{gender}}</p>
+    <p>Type : {{type}}</p>
+    <p>Skill : {{skill }} </p>
+    <p>Experience :{{ experience}}</p>
+    <p>Address : {{ address}} </p>
+    <p>Phone Number : {{phone}}</p>
+  </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,181 @@
+<form [formGroup]="userCreateForm" (ngSubmit)="addUser()">
+  <mat-stepper [linear]="isLinear" #stepper>
+
+    <mat-step [stepControl]="basicForm" label="Fill out Basic Info">
+      <label>Profile</label>
+      <div class="profileinput">
+        <input
+          #file
+          type="file"
+          (change)="imageUpload($event)"
+          formControlName="profile"
+          accept="image/*"
+          maxFileSize="2000000"
+        />
+      </div>
+      <div *ngIf="profileImage">
+        <img [src]="profileImage" class="profileimg" />
+      </div>
+      <div formGroupName="basic">
+
+        <mat-form-field appearance="fill" class="full-width">
+
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="name"
+            required
+          />
+          <mat-error *ngIf="myForm['name'].hasError('required')"
+            >Please enter your name</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="email"
+            required
+          />
+          <mat-error *ngIf="myForm['email'].hasError('required')"
+            >Please enter your email</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Password</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="password"
+            required
+          />
+          <mat-error *ngIf="myForm['password'].hasError('required')"
+            >Please enter your password</mat-error
+          >
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step [stepControl]="contactForm" label="Fill out your contact">
+      <div formGroupName="contact">
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            [matDatepicker]="picker"
+            [max]="today"
+            placeholder="Choose your Birthday"
+            formControlName="birthday"
+          />
+          <mat-hint>YYYY/MM/DD</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option
+              *ngFor="let selectOption of gender"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Address</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="address"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Phone No</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="phone"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>User Type</mat-label>
+          <mat-select formControlName="type">
+            <mat-option
+              *ngFor="let selectOption of typeOption"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="educationForm" label="Fill out your education">
+      <div formGroupName="education">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Skill</mat-label>
+          <mat-select formControlName="skill">
+            <mat-option
+              *ngFor="let selectOption of skills"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Experience</mat-label>
+          <mat-select formControlName="experience">
+            <mat-option
+              *ngFor="let selectOption of experiences"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button matStepperPrevious type="button">Back</button>
+          <button mat-raised-button matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Summary</ng-template>
+      <img [src]="profileImage" class="profileimg" />
+      <p>Your Name : {{basicForm.value.name}}</p>
+      <p>Email :  {{basicForm.value.email}}</p>
+      <p>Date of Birth : {{contactForm.value.birthday| date:'dd/MM/YYYY'}}</p>
+      <p>Type : {{contactForm.value.type}}</p>
+      <p>Gender : {{contactForm.value.gender}}</p>
+      <p>Address : {{contactForm.value.address}}</p>
+      <p>Skill : {{educationForm.value.skill}}</p>
+      <p>Experience : {{educationForm.value.experience}}</p>
+
+      <div>
+        <button mat-raised-button color="primary" matStepperPrevious type="button">
+          Back
+        </button>
+        <button mat-raised-button color="warn">Submit</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</form>

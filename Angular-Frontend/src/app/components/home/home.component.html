@@ -1,0 +1,21 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <mat-grid-list cols="3">
+    <mat-grid-tile *ngFor="let post of posts">
+      <mat-card class="example-card" routerLink="/details/{{ post._id}}">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>{{post.title}}</mat-card-title>
+          <mat-card-subtitle>{{post.updated | date:'dd/MM/YYYY' }}</mat-card-subtitle>
+        </mat-card-header>
+          <img mat-card-image src="{{post.postImage}}" alt="Photo of Posts" >
+        <mat-card-content>
+          {{post.description}}
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

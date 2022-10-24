@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Blog Project</title>
+</head>
+<body>
+   <mat-toolbar>
+      <a routerLink="/home">Angular + Node JS + MongoDB  Project</a>
+      <span class="example-spacer"></span>
+      <button mat-button color="primary" *ngIf="isUserLoggedIn" routerLink="/user-list" (click)="onClickUsers()">
+        <mat-icon class="mat-18">people_alt</mat-icon>
+        Users
+     </button>
+     <button mat-button color="primary" *ngIf="isUserLoggedIn" (click)="onClickProfile()">
+      <mat-icon class="mat-18">account_circle</mat-icon>
+      {{ loggedInUser?.basic?.name }}
+   </button>
+      <button mat-button color="warn" *ngIf="isUserLoggedIn; else isLogOut" class="nav-link" (click)="openDialog()">
+        <mat-icon class="mat-18">logout</mat-icon>
+        Log Out
+     </button>
+     <ng-template mat-button color="primary" #isLogOut>
+        <button mat-button color="primary" class="nav-link" routerLink="/login">
+           <mat-icon class="mat-18">login</mat-icon>
+           Login
+        </button>
+     </ng-template>
+      <button mat-button color="accent" routerLink="/signup">
+         <mat-icon class="mat-18">person_add_alt</mat-icon>
+         Sign Up
+      </button>
+   </mat-toolbar>
+   <mat-toolbar>
+   <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+      <mat-menu #menu="matMenu">
+        <div *ngIf="isUserLoggedIn === false">
+          <button mat-menu-item [routerLink]="['/']">Home</button>
+          <button mat-menu-item *ngFor="let category of categories" [routerLink]="['/bycategory/', category.id]">{{category.name}}</button>
+        </div>
+        <div *ngIf="isUserLoggedIn === true">
+          <button mat-menu-item routerLink="/home">Home</button>
+          <button mat-menu-item [routerLink]="['/category']">Category</button>
+          <button mat-menu-item [routerLink]="['/post']">Post</button>
+          <button mat-menu-item (click)="logout()">Logout</button>
+        </div>
+      </mat-menu>
+    </mat-toolbar>
+   <router-outlet></router-outlet>
+</body>
+</html>
