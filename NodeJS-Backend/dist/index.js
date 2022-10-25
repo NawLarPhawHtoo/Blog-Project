@@ -12,11 +12,13 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const multer_1 = __importDefault(require("multer"));
 const uuid_1 = require("uuid");
 const passport_1 = __importDefault(require("passport"));
-require('./src/config/passport');
+require("./src/config/passport");
 const user_route_1 = __importDefault(require("./src/routes/user.route"));
 const auth_route_1 = __importDefault(require("./src/routes/auth.route"));
 const post_route_1 = __importDefault(require("./src/routes/post.route"));
 const category_route_1 = __importDefault(require("./src/routes/category.route"));
+const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const express_session_1 = __importDefault(require("express-session"));
 dotenv_1.default.config();
 const fileStorage = multer_1.default.diskStorage({
     destination: (req, file, cb) => {
@@ -37,12 +39,12 @@ const fileFilter = (_req, file, cb) => {
         cb(null, false);
     }
 };
-mongoose_1.default.connect(`${process.env.MONGO_URL}`, {}, err => {
+mongoose_1.default.connect(`${process.env.MONGO_URL}`, {}, (err) => {
     if (!err) {
-        console.log('Database connection successed!');
+        console.log("Database connection successed!");
     }
     else {
-        console.log('Database connection failed!' + err);
+        console.log("Database connection failed!" + err);
     }
 });
 const app = (0, express_1.default)();
@@ -50,15 +52,19 @@ app.use(body_parser_1.default.json());
 app.use(express_1.default.json());
 app.use(body_parser_1.default.urlencoded({ extended: false }));
 app.use((0, cors_1.default)());
-app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
 app.use("/apiuploads", express_1.default.static("apiuploads"));
+app.use((0, cookie_parser_1.default)());
+app.use((0, express_session_1.default)({ secret: 'SECRET' }));
 app.use(passport_1.default.initialize());
-app.use('/api/users', user_route_1.default);
-app.use('/api', auth_route_1.default);
-app.use('/api/posts', post_route_1.default);
-app.use('/api/category', category_route_1.default);
-app.get('/', (req, res) => {
+app.use(passport_1.default.session());
+// app.use('/api/users',userRoute);
+app.use("/api/users", passport_1.default.authenticate("jwt", { session: false }), user_route_1.default);
+app.use("/api", auth_route_1.default);
+app.use("/api/posts", post_route_1.default);
+app.use("/api/category", category_route_1.default);
+app.get("/", (req, res) => {
     res.send("/Hello Welcome");
 });
 const port = process.env.PORT;

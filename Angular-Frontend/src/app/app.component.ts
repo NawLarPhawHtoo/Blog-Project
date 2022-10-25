@@ -92,6 +92,7 @@ export class AppComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      this.router.navigate(['/']);
     })
   }
   onClickUsers() {

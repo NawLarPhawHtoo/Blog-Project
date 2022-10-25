@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, Output } from '@angular/core';
 import { HttpClient,HttpErrorResponse,HttpHeaderResponse } from '@angular/common/http';
-import { catchError, Observable, retry, tap, throwError } from 'rxjs';
+import { catchError, lastValueFrom, Observable, retry, tap, throwError } from 'rxjs';
 import { throwToolbarMixedModesError } from '@angular/material/toolbar';
 
 @Injectable({
@@ -14,8 +14,7 @@ export class AuthService {
 
   constructor(private http:HttpClient) { }
 
-  loginUrl="http://localhost:8000/api";
-  signupUrl="http://localhost:8000/api";
+  apiUrl="http://localhost:8000/api";
 
   isUserLoggedIn: boolean = false;
 
@@ -25,7 +24,7 @@ export class AuthService {
       "password": password
     }
 
-    return this.http.post(`${this.loginUrl}/login`, data)
+    return this.http.post(`${this.apiUrl}/login`, data)
       .pipe(retry(3), catchError(this.httpErrorHandler));
   }
 
@@ -35,23 +34,12 @@ export class AuthService {
     "email":email,
     "password":password
   }
-   return this.http.post(`${this.signupUrl}/signup`, body)
+   return this.http.post(`${this.apiUrl}/signup`, body)
   .pipe(retry(3), catchError(this.httpErrorHandler));
  }
 
-
- private httpErrorHandler(error:HttpErrorResponse){
-  if(error.error instanceof HttpErrorResponse) {
-    console.error("A client side error occurred. The error message is: " + error.error.message);
-  }else{
-    alert("User name , password wrong!");
-    console.error(" A server side error occurred. The error message is: " + error.error.message);
-  }
-  return throwError ("Error occurred");
-}
-
   logout(): Observable<any>{
-    return this.http.post<any>(`${this.loginUrl}/logout`, {})
+    return this.http.post<any>(`${this.apiUrl}/logout`, {})
       .pipe(
         tap(_ => {
           this.isLoggedIn.emit(false);
@@ -62,11 +50,27 @@ export class AuthService {
         catchError(this.httpErrorHandler)
       );
   }
-  //logout() {
-  //  this.isUserLoggedIn = false;
-  //  localStorage.removeItem('isUserLoggedIn');
-  //  localStorage.removeItem('token');
-  //  localStorage.removeItem('loginUser');
-  //}
+ 
+  public forgetPassword(payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${this.apiUrl}/forgot-password`, payload));
+  }
+
+  public resetPasswordUpdate(id: string, token: string, payload: any): Promise<any> {
+    return lastValueFrom(this.http.post(`${this.apiUrl}/password-reset-update/${id}/${token}`, payload));
+  }
+
+  public passwordChange(id: string, payload: any, token: string): Promise<any> {
+    return lastValueFrom(this.http.post(`${this.apiUrl}/password-change/${id}/${token}`, payload));
+  }
+
+  private httpErrorHandler(error:HttpErrorResponse){
+    if(error.error instanceof HttpErrorResponse) {
+      console.error("A client side error occurred. The error message is: " + error.error.message);
+    }else{
+      alert("User name , password wrong!");
+      console.error(" A server side error occurred. The error message is: " + error.error.message);
+    }
+    return throwError ("Error occurred");
+  }
 
 }

@@ -150,8 +150,10 @@ export const updateUserService = async (
       skill:req.body.skill,
       experience:req.body.experience
     };
-      user.basic= basic;
-      console.log(user.basic);
+      user.name= basic.name;
+      console.log(user.name);
+      user.email= basic.email;
+      console.log(user.email);
       user.contact= contact;
       console.log(user.contact);
       user.education= education;
@@ -224,7 +226,7 @@ export const passwordChangeService = async (req: Request, res: Response, next: N
               if (err) {
                 throw err;
               }
-              user.password = hash;
+              user.basic.password = hash;
               user.save(); 
             })
           );

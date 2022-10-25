@@ -3,7 +3,9 @@
     <h1>Profile</h1>
   </mat-card-header>
   <mat-card-content class="clearfix wrapper">
-    <img mat-card-image [src]="profileImage" alt="User Profile" class="profileimg">
+    <div *ngIf="profileImage" class="personal-info-right">
+      <img [src]="profileImage" class="profile-img" />
+    </div>
     <mat-card-content class="content">
       <p>
         <span>Name</span> {{ loggedInUser?.basic?.name }}

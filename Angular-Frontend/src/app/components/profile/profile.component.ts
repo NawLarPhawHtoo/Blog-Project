@@ -21,13 +21,14 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
     console.log(this.loggedInUser);
-    this.profileImage = `http://localhost:8081/${this.loggedInUser.profile}` || "";
+    this.profileImage = `http://localhost:8000/${this.loggedInUser.profile}` || "";
+    console.log(this.profileImage);
   }
 
   openUpdateProfileDialog() {
     const dialogRef = this.dialog.open(UserEditComponent, { data: this.loggedInUser });
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'update') this.router.navigate(['/logout']);
+      if (result == 'update') this.router.navigate(['/home']);
     })
   }
 }

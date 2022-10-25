@@ -30,17 +30,21 @@ mat-card-actions {
   width: 80%;
   margin: 0 auto;
 }
-
-.profileimg {
+.personal-info-right{
+  float: left;
+  margin: 0 auto;
+  width:25%
+}
+.profile-img {
   object-fit: cover;
   display: block;
-  height: 40%;
-  width: 40%;
+  height: 70%;
+  width: 70%;
   margin: 10px auto;
-  float: left;
 }
 
 .content {
   float: right;
+  margin: 0 auto;
 }
 

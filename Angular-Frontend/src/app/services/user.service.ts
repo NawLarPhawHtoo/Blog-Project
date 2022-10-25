@@ -20,9 +20,10 @@ export class UserService {
   imgFile:any;
 
   REST_API: string = 'http://localhost:8000/api/users';
+  pwdChange_API: string = 'http://localhost:8000/api/users/password-change';
 
   httpHeaders=new HttpHeaders().set('Content-Type', 'application/json');
-
+  
   constructor(private httpClient: HttpClient,public fb:FormBuilder,public router:Router) { 
     this.userCreateForm=this.fb.group({
       basicForm:this.basicForm,
@@ -121,6 +122,12 @@ export class UserService {
   // Delete
   deleteUser(id: any) {
     return this.httpClient.delete(`${this.REST_API}/delete/${id}`)
+      .pipe(retry(3), catchError(this.handleError));
+  }
+
+  //Password Change
+  passwordChange(id: string, data: any) {
+    return this.httpClient.post(`${this.pwdChange_API}/${id}`, data)
       .pipe(retry(3), catchError(this.handleError));
   }
 

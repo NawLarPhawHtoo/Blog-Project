@@ -20,6 +20,9 @@ import { BycategoryComponent } from './components/bycategory/bycategory.componen
 import { DetailsComponent } from './components/details/details.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { ForgotPasswordUpdateComponent } from './pages/forgot-password-update/forgot-password-update.component';
 
 const routes: Routes = [
   {
@@ -47,9 +50,22 @@ const routes: Routes = [
   },
   { path: 'logout', component: LogoutComponent },
   {
+    path: 'forgot-password',
+    component: ForgotPasswordComponent
+  },
+  {
+    path:'forgot-password-update',
+    component: ForgotPasswordUpdateComponent
+  },
+  {
     path: 'profile',
     component: ProfileComponent,
     //canActivate: [AuthGuard]
+  },
+  {
+    path: 'passwordchange',
+    component: PasswordChangeComponent,
+    // canActivate: [AuthGuard]
   },
   {
     path: 'user-create',

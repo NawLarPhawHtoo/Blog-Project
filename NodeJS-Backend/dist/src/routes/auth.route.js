@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const user_controller_1 = require("../controllers/user.controller");
 const auth_controller_1 = require("../controllers/auth.controller");
 const express_validator_1 = require("express-validator");
+const auth_controller_2 = require("../controllers/auth.controller");
 const router = express_1.default.Router();
 router
     .route('/login')
@@ -24,4 +25,15 @@ router
     (0, express_validator_1.body)("email").notEmpty().withMessage("Email must not be empty"),
     (0, express_validator_1.body)("password").notEmpty().withMessage("Password must not be empty")
 ], user_controller_1.createUser);
+router
+    .route('/forgot-password')
+    .post([
+    (0, express_validator_1.body)("email").notEmpty().withMessage("Email must not be empty")
+], auth_controller_2.forgotPassword);
+router
+    .route('/password-reset-update/:userId/:token')
+    .post(auth_controller_2.resetPassword);
+router
+    .route('/password-change/:userId/:token')
+    .post(auth_controller_2.passwordChange);
 exports.default = router;

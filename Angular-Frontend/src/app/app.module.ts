@@ -55,6 +55,9 @@ import { CKEditorModule } from 'ckeditor4-angular';
 import { ProfileComponent } from './components/profile/profile.component';
 import { LogoutConfirmComponent } from './components/logout-confirm/logout-confirm.component';
 import { LogoutComponent } from './pages/logout/logout.component';
+import { PasswordChangeComponent } from './pages/password-change/password-change.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { ForgotPasswordUpdateComponent } from './pages/forgot-password-update/forgot-password-update.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +83,10 @@ import { LogoutComponent } from './pages/logout/logout.component';
     DetailsComponent,
     ProfileComponent,
     LogoutConfirmComponent,
-    LogoutComponent
+    LogoutComponent,
+    PasswordChangeComponent,
+    ForgotPasswordComponent,
+    ForgotPasswordUpdateComponent,
   ],
   imports: [
     BrowserModule,

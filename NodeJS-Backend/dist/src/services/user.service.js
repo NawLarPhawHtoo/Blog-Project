@@ -140,8 +140,10 @@ const updateUserService = (req, res, next) => __awaiter(void 0, void 0, void 0, 
             skill: req.body.skill,
             experience: req.body.experience
         };
-        user.basic = basic;
-        console.log(user.basic);
+        user.name = basic.name;
+        console.log(user.name);
+        user.email = basic.email;
+        console.log(user.email);
         user.contact = contact;
         console.log(user.contact);
         user.education = education;
@@ -207,7 +209,7 @@ const passwordChangeService = (req, res, next) => __awaiter(void 0, void 0, void
                     if (err) {
                         throw err;
                     }
-                    user.password = hash;
+                    user.basic.password = hash;
                     user.save();
                 }));
                 res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
