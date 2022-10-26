@@ -20,12 +20,17 @@ export class AuthGuard implements CanActivate {
 
   }
   checkLogin(url: string): any{
-    if (this.authService.loggedInStatus) {
-      return true;
-    }
+    let val:any=localStorage.getItem('isUserLoggedIn');
 
-    this.authService.redirectUrl = url;
-    this.router.navigate(['/login']);
-    return false;
+    if(val=='true'){
+      if(url=="/login"){
+        this.router.navigate(['/home']);
+        return false;
+      }else{
+        return true;
+      }
+    }else{
+      return this.router.parseUrl('/login');
+    }
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { catchError, map, retry } from 'rxjs/operators';
-import { Observable, throwError } from 'rxjs';
+import { lastValueFrom, Observable, Subject, throwError } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { User } from '../model/user';
 import { FormGroup,FormBuilder,Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { Router ,ActivatedRoute} from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
+  public dataSubject : Subject<any> = new Subject();
 
   userCreateForm!: FormGroup;
   basicForm!:FormGroup;
@@ -22,8 +23,11 @@ export class UserService {
   REST_API: string = 'http://localhost:8000/api/users';
   pwdChange_API: string = 'http://localhost:8000/api/users/password-change';
 
-  httpHeaders=new HttpHeaders().set('Content-Type', 'application/json');
-  
+  token = localStorage.getItem("token") || "";
+  headerOptions = new HttpHeaders()
+    .set('Authorization', `Bearer ${this.token}`);
+  options = { headers: this.headerOptions };
+ 
   constructor(private httpClient: HttpClient,public fb:FormBuilder,public router:Router) { 
     this.userCreateForm=this.fb.group({
       basicForm:this.basicForm,
@@ -90,38 +94,63 @@ export class UserService {
   }
 
   //get users
-  getUsers() {
-    return this.httpClient.get(`${this.REST_API}`);
+  // getUsers() {
+  //   return this.httpClient.get(`${this.REST_API}`);
+  // }
+  getUsers(pageSize: number, pageIndex: number): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${this.REST_API}`, this.options)
+      .pipe(retry(3), catchError(this.handleError));
   }
 
   //create
   createUser(data:User|any): Observable<any>{
     let API_URL = `${this.REST_API}/create`;
-    return this.httpClient.post(API_URL, data).pipe(catchError(this.handleError));
+    const token= localStorage.getItem('token') || '';
+    const headerOptions=new HttpHeaders().set('Authorization',`Bearer ${token}`);
+    const options={headers:headerOptions};
+
+    return this.httpClient.post(API_URL, data,options).pipe(catchError(this.handleError));
 
   }
 
    // Get single object
-   findUser(id: any): Observable<any> {
-    let API_URL = `${this.REST_API}/read/${id}`;
-    return this.httpClient.get(API_URL, { headers: this.httpHeaders }).pipe(
-      map((res: any) => {
-        return res || {};
-      }),
-      catchError(this.handleError)
-    );
+  //  findUser(payload:any,id:any): Observable<any> {
+  //   let API_URL = `${this.REST_API}/read/${id}`;
+  //   return this.httpClient.get(API_URL, this.options ).pipe(
+  //     map((res: any) => {
+  //       return res || {};
+  //     }),
+  //     catchError(this.handleError)
+  //   );
+  // }
+  public findUser(payload: any, id: any):Observable<any> {
+    const token = localStorage.getItem('token') || '';
+    const headerOptions = new HttpHeaders()
+      .set('Content-Type', 'application/json;charset=utf-8;')
+      .set('Cache-Control', 'no-cache')
+      .set('Pragma', 'no-cache')
+      .set('Authorization', `Bearer ${token}`);
+    const options = { headers: headerOptions };
+    return this.httpClient.post(`${this.REST_API}/read/${id}`, payload,this.options)
+    .pipe(retry(3), catchError(this.handleError));
   }
 
   // Update
   updateUser(id: string, data: any) {
-    return this.httpClient.put(`${this.REST_API}/update/${id}`, data)
+    const token=localStorage.getItem('token') || '';
+    const headerOptions=new HttpHeaders().set('Authorization',`Bearer ${token}`);
+    const options={headers: headerOptions};
+    return this.httpClient.put(`${this.REST_API}/update/${id}`, data,options)
       .pipe(retry(3), catchError(this.handleError));
   }
 
 
   // Delete
   deleteUser(id: any) {
-    return this.httpClient.delete(`${this.REST_API}/delete/${id}`)
+    const token = localStorage.getItem('token') || '';
+    const headerOptions=new HttpHeaders().set('Authorization',`Bearer ${token}`);
+    const options={ headers: headerOptions};
+    return this.httpClient.delete(`${this.REST_API}/delete/${id}`,options)
       .pipe(retry(3), catchError(this.handleError));
   }
 

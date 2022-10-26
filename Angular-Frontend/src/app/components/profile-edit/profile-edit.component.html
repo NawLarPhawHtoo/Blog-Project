@@ -1,0 +1,168 @@
+<form (ngSubmit)="updateProfile()">
+  <mat-stepper  #stepper>
+
+    <mat-step  label="Fill out Basic Info">
+      <label>Profile</label>
+      <div class="profileinput">
+        <input
+          #file
+          type="file"
+          (change)="imageUpload($event)"
+
+          accept="image/*"
+          maxFileSize="2000000"
+        />
+      </div>
+      <div *ngIf="profileImage">
+        <img [src]="profileImage" class="profileimg" />
+      </div>
+      <div formGroupName="basic">
+
+        <mat-form-field appearance="fill" class="full-width">
+
+          <mat-label>Name</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="name"
+            required
+          />
+          <!-- <mat-error *ngIf="myForm['name'].hasError('required')"
+            >Please enter your name</mat-error
+          > -->
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Email</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="email"
+            required
+          />
+          <!-- <mat-error *ngIf="myForm['email'].hasError('required')"
+            >Please enter your email</mat-error
+          > -->
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step  label="Fill out your contact">
+      <div formGroupName="contact">
+        <mat-form-field appearance="fill">
+          <input
+            matInput
+            [matDatepicker]="picker"
+           
+            placeholder="Choose your Birthday"
+            formControlName="birthday"
+          />
+          <mat-hint>YYYY/MM/DD</mat-hint>
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Gender</mat-label>
+          <mat-select formControlName="gender">
+            <mat-option
+              *ngFor="let selectOption of gender"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Address</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="address"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Phone No</mat-label>
+          <input
+            type="text"
+            matInput
+            class="form-control"
+            formControlName="phone"
+          />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>User Type</mat-label>
+           <mat-select formControlName="type">
+            <mat-option
+              *ngFor="let selectOption of typeOption"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div>
+          <button mat-raised-button color="primary" matStepperPrevious type="button">Back</button>
+          <button mat-raised-button color="primary" matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+
+    <mat-step  label="Fill out your education">
+      <div formGroupName="education">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Skill</mat-label>
+          <mat-select formControlName="skill">
+            <mat-option
+              *ngFor="let selectOption of skills"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Experience</mat-label>
+          <mat-select formControlName="experience">
+            <mat-option
+              *ngFor="let selectOption of experiences"
+              [value]="selectOption.enum"
+            >
+              {{ selectOption.enum }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button color="primary"  matStepperPrevious type="button">Back</button>
+          <button mat-raised-button color="primary" matStepperNext type="button">Next</button>
+        </div>
+      </div>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Summary</ng-template>
+      <img [src]="profileImage" class="profileimg" />
+      <p>Your Name : </p>
+      <p>Email :  {</p>
+      <p>Date of Birth : </p>
+      <p>Type : </p>
+      <p>Gender :</p>
+      <p>Address : </p>
+      <p>Skill : </p>
+      <p>Experience : </p>
+
+      <div>
+        <button mat-raised-button color="primary" matStepperPrevious type="button">
+          Back
+        </button>
+        <button mat-raised-button color="warn">Submit</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  </form>

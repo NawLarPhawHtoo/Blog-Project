@@ -23,6 +23,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ForgotPasswordUpdateComponent } from './pages/forgot-password-update/forgot-password-update.component';
+import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,11 @@ const routes: Routes = [
     //canActivate: [AuthGuard]
   },
   {
+    path: 'profile-edit/:id',
+    canActivate: [AuthGuard],
+    component: ProfileEditComponent
+  },
+  {
     path: 'passwordchange',
     component: PasswordChangeComponent,
     // canActivate: [AuthGuard]
@@ -74,12 +80,12 @@ const routes: Routes = [
   },
   {
     path: 'user-list',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: UserListComponent,
   },
   {
     path: 'user-edit/:id',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: UserEditComponent,
   },
   {
@@ -90,7 +96,7 @@ const routes: Routes = [
   {
     path: 'category',
     component: CategoryComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Category' }
   },
   {

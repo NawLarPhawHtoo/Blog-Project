@@ -19,15 +19,15 @@ const sendEmail = (email, subject, message) => __awaiter(void 0, void 0, void 0,
         const transporter = nodemailer_1.default.createTransport({
             host: "smtp.gmail.com",
             service: 'gmail',
-            port: 587,
+            port: 465,
             secure: true,
             auth: {
-                user: "scm.nawlarphawhtoo@gmail.com",
-                pass: "qmrgafjeicdnvktv"
+                user: process.env.USER,
+                pass: process.env.PASSWORD
             }
         });
         yield transporter.sendMail({
-            from: 'scm.nawlarphawhtoo@gmail.com',
+            from: process.env.USER,
             to: email,
             subject: subject,
             text: message

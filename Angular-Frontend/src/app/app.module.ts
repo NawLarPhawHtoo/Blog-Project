@@ -58,6 +58,7 @@ import { LogoutComponent } from './pages/logout/logout.component';
 import { PasswordChangeComponent } from './pages/password-change/password-change.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ForgotPasswordUpdateComponent } from './pages/forgot-password-update/forgot-password-update.component';
+import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +88,7 @@ import { ForgotPasswordUpdateComponent } from './pages/forgot-password-update/fo
     PasswordChangeComponent,
     ForgotPasswordComponent,
     ForgotPasswordUpdateComponent,
+    ProfileEditComponent,
   ],
   imports: [
     BrowserModule,

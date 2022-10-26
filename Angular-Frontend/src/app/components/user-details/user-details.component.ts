@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { User } from 'src/app/model/user';
 import { UserService } from 'src/app/services/user.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,16 +28,18 @@ public profile:any;
   public experience!: string;
 
   constructor(
-    private userService: UserService,
     private router: Router,
-    private activateRoute: ActivatedRoute
+    private route: ActivatedRoute,
+    public dialogRef: MatDialogRef<UserDetailsComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: UserDetailsComponent,
+    private userService: UserService
   ) {}
 
   ngOnInit() {
-    const id: string = this.activateRoute.snapshot.params['id'];
+    const id: string = this.route.snapshot.params['id'];
     console.log(id);
 
-    this.userService.findUser(id).subscribe(res=>{
+    this.userService.findUser(id,this.data).subscribe(res=>{
       this.userDetails=res.data;
       console.log(this.userDetails);
 
@@ -55,6 +58,9 @@ public profile:any;
       }
 
     })
+  }
+  cancel() {
+    this.dialogRef.close();
   }
   goToList() {
     this.router.navigate(['/user-list']);

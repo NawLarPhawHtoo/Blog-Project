@@ -8,33 +8,43 @@
     </div>
     <mat-card-content class="content">
       <p>
-        <span>Name</span> {{ loggedInUser?.basic?.name }}
+        <span>Name</span> {{ name }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Type</span> {{ loggedInUser?.contact?.type }}
+        <span>Type</span> {{ type }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Phone</span> {{ loggedInUser?.contact?.phone }}
+        <span>Phone</span> {{ phone }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Email</span> {{ loggedInUser?.basic?.email }}
+        <span>Email</span> {{ email }}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Birthday</span> {{ loggedInUser?.contact?.birthday | date:'dd/MM/YYYY'}}
+        <span>Birthday</span> {{ birthday | date:'dd/MM/YYYY'}}
       </p>
       <mat-divider></mat-divider>
       <p>
-        <span>Adderss</span> {{ loggedInUser?.contact?.address }}
+        <span>Adderss</span> {{ address }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Skill</span> {{ skill }}
+      </p>
+      <mat-divider></mat-divider>
+      <p>
+        <span>Experience</span> {{ experience }}
       </p>
     </mat-card-content>
 
   </mat-card-content>
   <mat-card-actions>
     <button mat-raised-button color="warn" routerLink="/passwordchange">Change Password</button>
-    <button mat-raised-button color="primary" (click)="openUpdateProfileDialog()">Update profile</button>
+    <button type="button" color="primary" mat-raised-button (click)="editProfile()">
+      Edit Profile
+    </button>
   </mat-card-actions>
 </mat-card>

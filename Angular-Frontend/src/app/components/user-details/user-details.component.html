@@ -2,24 +2,69 @@
   <button type="button" class="btn btn-primary" (click)="goToList()">Go to List</button>  
   <button type="button" class="btn btn-primary" (click)="goToEdit">Edit</button> 
 </div>
-<mat-card>
-  <mat-card-header style="color: rgb(63,81,181);">User Information Details</mat-card-header>
-  <mat-card-content>
-  <div style="text-align: center;" >
-    <!-- <p style="color: rgb(63,81,181);">Almost done! Please check your information!</p> -->
-    <div *ngIf="profile" class="personal-info-right">
-      <img [src]="profile" class="profile-img" />
+<h2 mat-dialog-title>User Detail Information</h2>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="mat-dialog">
+  <div class="user-detail-content">
+    <div class="user-detail-img-container">
+      <ng-container *ngIf="data.profile">
+        <img src="{{'http://localhost:8000/' + data.profile}}" alt="placeholder" class="img-responsive" />
+      </ng-container>
     </div>
-    <p>Your Name : {{ name}} </p>
-    <p>Email : {{email}} </p>
-    <p>Password : {{ password}} </p>
-    <p>Date of Birthday : {{ birthday}}</p>
-    <p>Gender : {{gender}}</p>
-    <p>Type : {{type}}</p>
-    <p>Skill : {{skill }} </p>
-    <p>Experience :{{ experience}}</p>
-    <p>Address : {{ address}} </p>
-    <p>Phone Number : {{phone}}</p>
+    <div class="user-detail-list-container">
+      <mat-list role="list">
+        <!-- Name -->
+        <mat-list-item role="listitem">
+          <span>Name</span>
+          <div class="dialog-data">
+            {{data.name}}
+          </div>
+        </mat-list-item>
+
+        <!-- Type -->
+        <mat-list-item role="listitem">
+          <span>Type</span>
+          <div class="dialog-data">
+            {{data.type}}
+          </div>
+        </mat-list-item>
+
+        <!-- Email -->
+        <mat-list-item role="listitem">
+          <span>Email</span>
+          <div class="dialog-data">
+            {{data.email}}
+          </div>
+        </mat-list-item>
+
+        <!-- Phone -->
+        <mat-list-item role="listitem">
+          <span>Phone</span>
+          <div class="dialog-data">
+            {{data.phone}}
+          </div>
+        </mat-list-item>
+
+        <!-- Dob -->
+        <mat-list-item role="listitem">
+          <span>Date of Birth</span>
+          <div class="dialog-data">
+            {{data.birthday}}
+          </div>
+        </mat-list-item>
+
+        <!-- Address -->
+        <mat-list-item role="listitem">
+          <span>Address</span>
+          <div class="dialog-data">
+            {{data.address}}
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
-  </mat-card-content>
-</mat-card>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions text-align="end">
+  <button mat-flat-button (click)="cancel()">Close</button>
+</div>

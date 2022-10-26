@@ -14,7 +14,7 @@ router
     .post(user_controller_1.createUser);
 router
     .route("/read/:id")
-    .get(user_controller_1.findUser);
+    .post(user_controller_1.findUser);
 router
     .route("/update/:id")
     .put(user_controller_1.updateUser);

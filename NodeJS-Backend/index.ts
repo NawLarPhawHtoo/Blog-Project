@@ -56,7 +56,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(multer({ storage: fileStorage, fileFilter }).single("profile"));
 app.use("/apiuploads", express.static("apiuploads"));
 app.use(cookieParser());
-app.use(session({secret:'SECRET'}));
+app.use(session({
+  secret:'secret',
+  name: 'cookie_name',
+  // connect-mongo session store
+  proxy: true,
+  resave: false,
+  saveUninitialized:false
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 

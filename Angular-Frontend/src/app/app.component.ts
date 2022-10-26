@@ -30,7 +30,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     if (localStorage.getItem('loginUser')) {
       this.loggedInUser = JSON.parse(localStorage.getItem('loginUser') || '');
-      console.log(this.loggedInUser.data);
+      console.log(this.loggedInUser);
     } else {
       this.loggedInUser = '';
     }

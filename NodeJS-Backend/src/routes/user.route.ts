@@ -13,7 +13,7 @@ router
 
 router
 .route("/read/:id") 
-.get(findUser)
+.post(findUser)
 
 router
 .route("/update/:id")

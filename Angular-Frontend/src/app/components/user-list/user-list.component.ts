@@ -3,15 +3,14 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/model/user';
 import { UserEditComponent } from '../user-edit/user-edit.component';
 import { UserCreateComponent } from '../user-create/user-create.component';
-import { MatSort } from '@angular/material/sort';
+import { MatSort,Sort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { catchError, of } from 'rxjs';
 import { UserDeleteConfirmDialogComponent } from '../user-delete-confirm-dialog/user-delete-confirm-dialog.component';
 import { UserDetailsComponent } from '../user-details/user-details.component';
 import { MatTableDataSource } from '@angular/material/table';
-
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
@@ -19,10 +18,7 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class UserListComponent implements OnInit,AfterViewInit{
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  users: User[] | any =[];
+  users: any;
   console = console;
   displayedColumns: string[] = [
     'profile',
@@ -35,13 +31,26 @@ export class UserListComponent implements OnInit,AfterViewInit{
     'actions',
   ];
   dataSource = new MatTableDataSource<User>();
-  loggedInUser: any;
+  // loggedInUser: any;
+  actualPaginator?:MatPaginator;
+  currentPage=0;
+  totalSize=0;
+  pageSize=5;
+  pageOptions=[5,10,15];
+
+  public dataSubject:any=null;
+
+  @ViewChild(MatPaginator) paginator!:MatPaginator;
+  @ViewChild(MatSort) sort=new MatSort();
 
   constructor(
     private userService: UserService,
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.dataSubject=this.userService.dataSubject;
+  }
 
   ngOnInit(): void {
     this.getUsers();
@@ -53,11 +62,14 @@ export class UserListComponent implements OnInit,AfterViewInit{
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe((res: any) => {
+    this.userService.getUsers(this.currentPage, this.pageSize).subscribe((res: any) => {
       console.log(res);
-      // this.users=res.data;
-      this.dataSource.data = res.data;
+      this.users=res.data;
+      this.dataSource = new MatTableDataSource<any>(this.users);
+      // this.dataSource.next(this.dataSource);
       // console.log(this.users)  
+      this.dataSource.paginator= this.paginator;
+      this.totalSize=this.users.length;
     });
   }
 
@@ -72,15 +84,8 @@ export class UserListComponent implements OnInit,AfterViewInit{
 
   public doFilter = (target: any) => {
     this.dataSource.filter = target.value.trim().toLocaleLowerCase();
-  };
-
-  // openDetailDialog(element: any) {
-  //   const dialogRef = this.dialog.open(UserDetailsComponent, { data: element });
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result == 'details') this.getUsers();
-  //   });
-  // }
-
+  }
+  
   openUpdateDialog(element: any) {
     const dialogRef = this.dialog.open(UserEditComponent, { data: element });
     dialogRef.afterClosed().subscribe((result) => {
@@ -93,12 +98,4 @@ export class UserListComponent implements OnInit,AfterViewInit{
       if (result == 'delete') this.getUsers();
     })
   }
-
-  // openDialog() {
-  //   const dialogRef = this.dialog.open(UserCreateComponent, { width: '700px' });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     if (result == 'create') this.getUsers();
-  //   });
-  // }
 }

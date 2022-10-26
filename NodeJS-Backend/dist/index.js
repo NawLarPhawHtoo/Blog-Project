@@ -56,7 +56,14 @@ app.use(express_1.default.static(path_1.default.join(__dirname, "public")));
 app.use((0, multer_1.default)({ storage: fileStorage, fileFilter }).single("profile"));
 app.use("/apiuploads", express_1.default.static("apiuploads"));
 app.use((0, cookie_parser_1.default)());
-app.use((0, express_session_1.default)({ secret: 'SECRET' }));
+app.use((0, express_session_1.default)({
+    secret: 'secret',
+    name: 'cookie_name',
+    // connect-mongo session store
+    proxy: true,
+    resave: false,
+    saveUninitialized: false
+}));
 app.use(passport_1.default.initialize());
 app.use(passport_1.default.session());
 // app.use('/api/users',userRoute);
