@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passwordChange = exports.deleteUser = exports.updateUser = exports.createUser = exports.findUser = exports.getUsers = void 0;
+exports.deleteUser = exports.updateUser = exports.createUser = exports.findUser = exports.getUsers = void 0;
 const user_service_1 = require("../services/user.service");
 const getUsers = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     (0, user_service_1.getUserService)(req, res, next);
@@ -31,7 +31,10 @@ const deleteUser = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     (0, user_service_1.deleteUserService)(req, res, next);
 });
 exports.deleteUser = deleteUser;
-const passwordChange = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, user_service_1.passwordChangeService)(req, res, next);
-});
-exports.passwordChange = passwordChange;
+// export const passwordChange = async (
+//   req: any,
+//   res: Response,
+//   next: NextFunction
+// ) => {
+//  passwordChangeService(req, res, next);
+// }

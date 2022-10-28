@@ -1,5 +1,7 @@
 import express from 'express';
-import { getUsers,findUser,createUser,updateUser,deleteUser ,passwordChange} from '../controllers/user.controller';
+import { getUsers,findUser,createUser,updateUser,deleteUser ,
+  // passwordChange
+} from '../controllers/user.controller';
 
 const router=express.Router();
 
@@ -23,9 +25,9 @@ router
 .route("/delete/:id")
 .delete(deleteUser)
 
-router
-  .route("/password-change/:id")
-  .post(passwordChange)
+// router
+//   .route("/password-change/:id")
+//   .post(passwordChange)
 
 
 export default router;

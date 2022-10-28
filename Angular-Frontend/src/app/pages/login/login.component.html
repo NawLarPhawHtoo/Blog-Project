@@ -12,7 +12,6 @@
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Password</mat-label>
           <mat-icon class="color" matPrefix>lock</mat-icon>
-          <!-- <input type="password" matInput class="form-control" formControlName="password"> -->
           <input matInput [type]="showPassword ? 'text' : 'password'" name="password" class="form-control" formControlName="password">
           <mat-icon matSuffix (click)="togglePasswordVisibility()">
              {{showPassword?'visibility_off':'visibility'}}

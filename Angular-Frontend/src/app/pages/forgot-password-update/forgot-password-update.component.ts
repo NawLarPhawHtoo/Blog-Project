@@ -9,11 +9,12 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./forgot-password-update.component.scss']
 })
 export class ForgotPasswordUpdateComponent implements OnInit {
-  forgetPasswordUpdateForm!: FormGroup;
+  forgotPasswordUpdateForm!: FormGroup;
   public passwordMatch:boolean=true;
   public errorMessage:string='';
   public userId:string='';
   public token:string='';
+  public password:string='';
 
   constructor(
     private fb:FormBuilder,
@@ -23,26 +24,32 @@ export class ForgotPasswordUpdateComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userId=this.route.snapshot.params['userId'];
-    this.token=this.route.snapshot.params['token'];
-
-    this.forgetPasswordUpdateForm=new FormGroup({
+    this.forgotPasswordUpdateForm=new FormGroup({
+      userId:new FormControl('',Validators.required),
+      token:new FormControl('',Validators.required),
       password: new FormControl('',Validators.required),
       confirmPassword: new FormControl('',Validators.required)
     });
   }
+  
+ forgotPasswordUpdate(data:any){
+    this.userId=data.userId;
+    console.log(this.userId);
+    this.token=data.token;
+    console.log(this.token);
+    this.password=data.password;
+    console.log(this.password);
 
-  public resetPassword(){
-    if (this.forgetPasswordUpdateForm.controls['password'].value && this.forgetPasswordUpdateForm.controls['confirmPassword'].value &&
-    this.forgetPasswordUpdateForm.controls['password'].value !== this.forgetPasswordUpdateForm.controls['confirmPassword'].value) {
-    this.errorMessage = "Password and Password confirmation are not matched";
-  } else {
-    const payload = {
-      password: this.forgetPasswordUpdateForm.controls['password'].value
+    const payload:any = {
+      userId:this.userId,
+      token:this.token,
+      password: this.password
     }
-    this.authService.resetPasswordUpdate(this.userId, this.token, payload)
+    console.log(payload);
+    this.authService.forgotPasswordUpdate(payload).subscribe((res:any)=>{
+      console.log(res);
+    })
     this.router.navigate(['/login', {resetEmail: 'success'}]);
-  }
   }
 
   public onClear = () => {
@@ -50,7 +57,7 @@ export class ForgotPasswordUpdateComponent implements OnInit {
   }
 
   public hasError = (controlName: string, errorName: string) => {
-    return this.forgetPasswordUpdateForm.controls[controlName].hasError(errorName);
+    return this.forgotPasswordUpdateForm.controls[controlName].hasError(errorName);
   }
 
 }

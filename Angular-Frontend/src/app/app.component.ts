@@ -19,6 +19,7 @@ export class AppComponent implements OnInit{
   isUserLoggedIn: boolean = false;
   isUsers: boolean = false;
   isProfile: boolean=false;
+  public showHeaderFooter = false;
 
   constructor(
     private homeServie: HomeService,

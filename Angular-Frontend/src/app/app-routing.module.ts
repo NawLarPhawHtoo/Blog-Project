@@ -58,24 +58,25 @@ const routes: Routes = [
     path:'forgot-password-update',
     component: ForgotPasswordUpdateComponent
   },
+  { 
+    path: 'password-change/:id',
+    component: PasswordChangeComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'profile',
     component: ProfileComponent,
-    //canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'profile-edit/:id',
     canActivate: [AuthGuard],
     component: ProfileEditComponent
   },
-  {
-    path: 'passwordchange',
-    component: PasswordChangeComponent,
-    // canActivate: [AuthGuard]
-  },
+  
   {
     path: 'user-create',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: UserCreateComponent,
   },
   {
@@ -90,7 +91,7 @@ const routes: Routes = [
   },
   {
     path: 'user-details/:id',
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     component: UserDetailsComponent
   },
   {
@@ -102,43 +103,43 @@ const routes: Routes = [
   {
     path: 'category/details/:id',
     component: CategoryDetailsComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Category Details' }
   },
   {
     path: 'category/add',
     component: CategoryAddComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Category Add' }
   },
   {
     path: 'category/edit/:id',
     component: CategoryEditComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Category Edit' }
   },
   {
     path: 'post',
     component: PostComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Post' }
   },
   {
     path: 'post/details/:id',
     component: PostDetailsComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Post Details' }
   },
   {
     path: 'post/add',
     component: PostAddComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Post Add' }
   },
   {
     path: 'post/edit/:id',
     component: PostEditComponent,
-    //canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
     data: { title: 'Post Edit' }
   },
 ];

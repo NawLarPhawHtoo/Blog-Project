@@ -6,6 +6,9 @@ const passwordResetSchema = new mongoose_1.Schema({
         type: String,
         required: true
     },
+    user_id: {
+        type: mongoose_1.Schema.Types.ObjectId,
+    },
     token: {
         type: String,
         required: true

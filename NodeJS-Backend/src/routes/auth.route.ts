@@ -2,7 +2,7 @@ import express from 'express';
 import { createUser } from '../controllers/user.controller';
 import { login,logout } from '../controllers/auth.controller';
 import { body } from 'express-validator';
-import { forgotPassword, resetPassword, passwordChange} from '../controllers/auth.controller';
+import { forgotPassword, passwordReset, passwordChange} from '../controllers/auth.controller';
 
 const router=express.Router();
 
@@ -34,8 +34,12 @@ router
     ], forgotPassword);
 
 router
-  .route('/password-reset-update/:userId/:token')
-  .post(resetPassword);
+  .route('/forgot-password-update')
+  .post(
+    [
+      body("userId").notEmpty().withMessage("User Id must not be empty"),
+      body("token").notEmpty().withMessage("Token must not be empty")
+    ],passwordReset);
 
   router
   .route('/password-change/:userId/:token')

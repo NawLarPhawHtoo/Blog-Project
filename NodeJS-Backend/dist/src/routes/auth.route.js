@@ -31,8 +31,11 @@ router
     (0, express_validator_1.body)("email").notEmpty().withMessage("Email must not be empty")
 ], auth_controller_2.forgotPassword);
 router
-    .route('/password-reset-update/:userId/:token')
-    .post(auth_controller_2.resetPassword);
+    .route('/forgot-password-update')
+    .post([
+    (0, express_validator_1.body)("userId").notEmpty().withMessage("User Id must not be empty"),
+    (0, express_validator_1.body)("token").notEmpty().withMessage("Token must not be empty")
+], auth_controller_2.passwordReset);
 router
     .route('/password-change/:userId/:token')
     .post(auth_controller_2.passwordChange);

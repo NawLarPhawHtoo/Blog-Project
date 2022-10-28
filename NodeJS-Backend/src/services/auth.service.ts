@@ -65,7 +65,7 @@ export const forgetPasswordService = async (req: any, res: Response) => {
         token: crypto.randomBytes(16).toString("hex"),
       }).save();
     }
-    const link = `${process.env.BASE_URL}/forget-password-update/${user._id}/${token.token}`;
+    const link = `${process.env.BASE_URL}/forgot-password-update/${user._id}/${token.token}`;
     await sendEmail(user.basic?.email, "Password reset", link);
 
     res.status(200).json({
@@ -76,13 +76,13 @@ export const forgetPasswordService = async (req: any, res: Response) => {
   }
 };
 
-export const resetPasswordService = async (req: Request, res: Response) => {
+export const passwordResetService = async (req: Request, res: Response) => {
   try {
-    const user = await User.findById(req.params.userId);
+    const user = await User.findById(req.body.userId);
     if (!user) return res.status(401).send("User Id does not exist");
 
     const passwordReset = await PasswordReset.findOne({
-      token: req.params.token
+      token: req.body.token
     });
     if (!passwordReset) return res.status(401).send("Invalid link or expired");
     console.log(req.body.password);

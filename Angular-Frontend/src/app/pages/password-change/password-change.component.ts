@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl,FormGroup,Validators,FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
 import { MustMatch } from 'src/app/validators/must-match.validator';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-password-change',
@@ -14,70 +14,49 @@ export class PasswordChangeComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private userService: UserService
+    private authService: AuthService
   ) { }
 
-  confirmView:boolean= false;
-  loggedInUser=JSON.parse(localStorage.getItem('loginUser') || '');
-  oldPassword:string=this.loggedInUser.basic.password;
   today=new Date();
-  formData!:FormGroup;
+  passwordForm!:FormGroup;
 
   ngOnInit(): void {
-    this.loggedInUser= JSON.parse(localStorage.getItem('loginUser') || '');
-    console.log(this.loggedInUser._id);
-    this.formData = this.fb.group({
+    const data= JSON.parse(localStorage.getItem('loginUser') || '');
+    console.log(data);
+    this.passwordForm = this.fb.group({
       oldPassword: new FormControl('', [Validators.required]),
       newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl('', Validators.required)
-    },
-    {
-      validator: MustMatch('newPassword', 'confirmPwd')
     }
     );
   }
 
   get myForm(){
-    return this.formData.controls;
+    return this.passwordForm.controls;
   }
 
-  onClickSave(){
-    console.log(this.formData.value);
-      const id=this.loggedInUser._id;
-      console.log(id);
-      const formData=new FormData();
-      formData.append('oldPassword', this.formData.value.oldPassword);
-      formData.append('newPassword', this.formData.value.newPassword);
-      formData.append('confirmPassword', this.formData.value.confirmPassword);
-      console.log(formData);
+  onClickSave(formValue:any){
+    console.log(this.passwordForm.value);
+    
+    const data:any=localStorage.getItem('loginUser') || '';
+    const id=JSON.parse(data)._id;
+    console.log(id);
+    const token:any =localStorage.getItem('token');
+    const payload={
+      oldPassword:this.passwordForm.controls['oldPassword'].value,
+      newPassword:this.passwordForm.controls['newPassword'].value
+    }
 
-      this.userService.passwordChange(id, formData)
-      .subscribe(res => {
-        console.log(res);
-        this.router.navigate(['/logout']);
+      this.authService.passwordChange(id, payload,token).subscribe((res:any) => {
+        console.log(res.data);
+        this.authService.logout().subscribe((res:any)=>{
+          localStorage.removeItem('id');
+          localStorage.clear();
+          
+          this.router.navigateByUrl('/login');
+
+        })
       });
-
-  // if (this.formData.valid) {
-  //   this.formData.controls['oldPassword'].disable();
-  //   this.formData.controls['newPassword'].disable();
-  //   this.formData.controls['confirmPwd'].disable();
-  //   this.confirmView = true;
-  // }
 }
-
-public onClear() {
-  if (this.confirmView === true) {
-    this.formData.controls['oldPassword'].enable();
-    this.formData.controls['newPassword'].enable();
-    this.formData.controls['confirmPwd'].enable();
-    this.confirmView = false;
-  } else {
-    this.formData.reset();
-  }
 }
-
-public hasError = (controlName: string, errorName: string) => {
-  return this.formData.controls[controlName].hasError(errorName);
-} }
 
 

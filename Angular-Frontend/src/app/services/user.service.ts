@@ -113,7 +113,7 @@ export class UserService {
 
   }
 
-   // Get single object
+   //Get single object
   //  findUser(payload:any,id:any): Observable<any> {
   //   let API_URL = `${this.REST_API}/read/${id}`;
   //   return this.httpClient.get(API_URL, this.options ).pipe(
@@ -123,7 +123,7 @@ export class UserService {
   //     catchError(this.handleError)
   //   );
   // }
-  public findUser(payload: any, id: any):Observable<any> {
+  public findUser(id: any, payload: any):Observable<any> {
     const token = localStorage.getItem('token') || '';
     const headerOptions = new HttpHeaders()
       .set('Content-Type', 'application/json;charset=utf-8;')

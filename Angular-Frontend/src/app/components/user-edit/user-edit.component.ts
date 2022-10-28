@@ -95,7 +95,6 @@ export class UserEditComponent implements OnInit {
         name: [name],
         email:[ email],
         password:[password],
-        // confirmPwd: this.fb.control('', Validators.required),
       }),
       contact: this.fb.group({
         birthday: [birthday],
@@ -113,7 +112,6 @@ export class UserEditComponent implements OnInit {
   }
 
   onClickUpdateUser() {
-    //   if (this.confirmView == true) {
     const id = this.data._id;
     console.log(id);
     console.log(this.formData.value);

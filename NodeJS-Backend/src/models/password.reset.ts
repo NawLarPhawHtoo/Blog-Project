@@ -5,6 +5,9 @@ const passwordResetSchema = new Schema({
     type: String,
     required: true
   },
+  user_id:{
+    type:Schema.Types.ObjectId,
+  },
   token: {
     type: String,
     required: true

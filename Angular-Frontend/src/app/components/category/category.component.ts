@@ -24,10 +24,8 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     this.categoryService.getCategories().subscribe((res: any) => {
       console.log(res);
-      // this.users=res.data;
       this.data= res.data;
       this.isLoadingResults = false;
-      // console.log(this.users)
     });
 
   }

@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   userData: any;
 
   public userInfo: any;
+  public id:any;
   public name!: string;
   public email!: string;
   public type!: string;
@@ -43,7 +44,7 @@ export class ProfileComponent implements OnInit {
     const id=this.loggedInUser._id;
     console.log(id);
     const payload:any = {};
-    this.userService.findUser(payload,id).subscribe((res:any)=>{
+    this.userService.findUser(id,payload).subscribe((res:any)=>{
       this.userData=res.data;
       console.log(this.userData);
 
@@ -60,6 +61,12 @@ export class ProfileComponent implements OnInit {
       }
 
     })
+    }
+    passwordChange(){
+      const data = localStorage.getItem('loginUser') || "";
+      this.userInfo=JSON.parse(data);
+      console.log(this.userInfo);
+      this.router.navigate(["password-change/", this.userInfo._id]);
     }
     editProfile() {
       const data = localStorage.getItem('loginUser') || "";

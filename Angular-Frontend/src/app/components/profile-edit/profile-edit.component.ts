@@ -13,7 +13,8 @@ export class ProfileEditComponent implements OnInit {
   profileEditForm!: FormGroup;
   confirmView:boolean= false;
   profileImage:any;
-
+  isLinear = false;
+  today = new Date();
   userData:any;
   imgFile:any;
 
@@ -34,68 +35,55 @@ export class ProfileEditComponent implements OnInit {
 
 
   constructor(
-    private dialogRef: MatDialogRef<ProfileEditComponent>,
     private router:Router,
-    private route: ActivatedRoute,
     private fb: FormBuilder,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-  ) {
-    // const id=this.route.snapshot.params['id'];
-    // this.profileEditForm=this.fb.group({
-    //   profile:[''],
-    //   basic:this.fb.group({
-    //     name:[''],
-    //     email:['']
-
-    //   }),
-    //   contact:this.fb.group({
-    //     type:[''],
-    //     birthday:[''],
-    //     gender:[''],
-    //     phone:[''],
-    //     address:['']
-    //   }),
-    //   education:this.fb.group({
-    //     skill:[''],
-    //     experience:['']
-    //   })
-
-    // });
-
-    // const payload={};
-    // this.userService.findUser(payload,id).subscribe((res:any)=>{
-    //   this.userData=res.data;
-    //   console.log(this.userData);
-
-    //   if(this.userData){
-    //     this.profileEditForm.controls['name'].setValue(this.userData.basic.name);
-    //     this.profileEditForm.controls['email'].setValue(this.userData.basic.email);
-    //     this.profileEditForm.controls['type'].setValue(this.userData.contact.type);
-    //     this.profileEditForm.controls['birthday'].setValue(this.userData.contact.birthday);
-    //     this.profileEditForm.controls['gender'].setValue(this.userData.contact.gender);
-    //     this.profileEditForm.controls['address'].setValue(this.userData.contact.address);
-    //     this.profileEditForm.controls['phone'].setValue(this.userData.contact.phone);
-    //     this.profileEditForm.controls['skill'].setValue(this.userData.education.skill);
-    //     this.profileEditForm.controls['experience'].setValue(this.userData.education.experience);
-    //     this.profileImage='http://localhost:8000/'+this.userData.profile;
-    //   }
-    // })
-   }
+  ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-    const id:string=this.route.snapshot.params['id'];
-    const payload={};
-    this.userService.findUser(payload,id).subscribe((res:any)=>{
-      this.userData=res.data;
-      console.log(this.userData);
-    });
-
+   
     const data:any=localStorage.getItem('loginUser') || '';
-    this.userID=JSON.parse(data);
-    console.log(this.userID);
+    this.userData=JSON.parse(data);
+    console.log(this.userData);
 
+    const profile=this.userData.profile;
+    console.log(profile);
+    const name=this.userData.basic.name;
+    console.log(name);
+    const email=this.userData.basic.email;
+    const password=this.userData.basic.password;
+
+    const birthday=this.userData.contact.birthday;
+    const gender=this.userData.contact.gender;
+    const phone=this.userData.contact.phone;
+    const address=this.userData.contact.address;
+    const type=this.userData.contact.type;
+
+    const skill=this.userData.education.skill;
+    const experience=this.userData.education.experience;
+
+    this.profileEditForm = this.fb.group({
+      profile:[this.userData.profile],
+
+      basic: this.fb.group({
+        name: [name],
+        email:[email],
+        password:[password],
+        // confirmPwd: this.fb.control('', Validators.required),
+      }),
+      contact: this.fb.group({
+        birthday: [birthday],
+        gender: [gender],
+        type:[type],
+        phone: [phone],
+        address: [address],
+      }),
+      education: this.fb.group({
+        skill:[skill],
+        experience: [experience]
+      }),
+    });
   }
 
   //form control
@@ -103,10 +91,24 @@ export class ProfileEditComponent implements OnInit {
     return this.profileEditForm.controls;
   }
 
-  //update profile
-  public updateProfile(){
-    const id:string= this.route.snapshot.params['id'];
+  get basicForm() {
+    return this.profileEditForm.get('basic') as FormGroup;
+  }
 
+  get contactForm() {
+    return this.profileEditForm.get('contact') as FormGroup;
+  }
+
+  get educationForm() {
+    return this.profileEditForm.get('education') as FormGroup;
+  }
+
+  //update profile
+   updateProfile(){
+    const data:any=localStorage.getItem('loginUser') || '';
+    this.userData=JSON.parse(data);
+    const id=this.userData._id;
+    console.log(id);
     const formData:any=new FormData();
     formData.append('name', this.profileEditForm.value.basic.name);
     formData.append('email', this.profileEditForm.value.basic.email);
@@ -118,11 +120,11 @@ export class ProfileEditComponent implements OnInit {
     formData.append('phone', this.profileEditForm.value.contact.phone);
     formData.append('experience', this.profileEditForm.value.education.experience);
     formData.append('skill', this.profileEditForm.value.education.skill);
-    formData.append('profile', this.imgFile) && this.imgFile;
+    this.imgFile && formData.append('profile', this.imgFile);
 
-    this.userService.updateUser(formData,id).subscribe((res:any)=>{
-      console.log(res);
-
+    this.userService.updateUser(id,formData).subscribe((res:any)=>{
+      console.log(res.data);
+      this.router.navigateByUrl('/user-list');
     });
 
   }

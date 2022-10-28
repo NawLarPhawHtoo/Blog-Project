@@ -196,49 +196,49 @@ export const deleteUserService = async (
 };
 
 
-export const passwordChangeService = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    console.log(req.params.id);
-  const user:any = await User.findById(req.params.id);
-  console.log(user);
-    const { oldPassword, newPassword, confirmPassword } = req.body;
-    console.log(oldPassword);
-    console.log(newPassword);
-    console.log(confirmPassword);
+// export const passwordChangeService = async (req: Request, res: Response, next: NextFunction) => {
+//   try {
+//     console.log(req.params.id);
+//   const user:any = await User.findById(req.params.id);
+//   console.log(user);
+//     const { oldPassword, newPassword, confirmPassword } = req.body;
+//     console.log(oldPassword);
+//     console.log(newPassword);
+//     console.log(confirmPassword);
 
-    //Check required fields
-    if (!oldPassword || !newPassword || !confirmPassword) {
-      res.json({ message: "Please fill in all fields." });
-    }
+//     //Check required fields
+//     if (!oldPassword || !newPassword || !confirmPassword) {
+//       res.json({ message: "Please fill in all fields." });
+//     }
     
-    //Check passwords match
-    if (newPassword !== confirmPassword) {
-      res.json({ message: "New password do not match." });
-    } else {
-      //Validation Passed
-      const isMatch = await bcrypt.compare(oldPassword, user.basic.password);
-      console.log(user.basic.password);
-      console.log(isMatch);
-        if (isMatch) {
-          //Update password for user with new password
-          bcrypt.genSalt(12, (err, salt) =>
-            bcrypt.hash(newPassword,salt, (err, hash) => {
-              if (err) {
-                throw err;
-              }
-              user.basic.password = hash;
-              user.save(); 
-            })
-          );
-          res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
+//     //Check passwords match
+//     if (newPassword !== confirmPassword) {
+//       res.json({ message: "New password do not match." });
+//     } else {
+//       //Validation Passed
+//       const isMatch = await bcrypt.compare(oldPassword, user.basic.password);
+//       console.log(user.basic.password);
+//       console.log(isMatch);
+//         if (isMatch) {
+//           //Update password for user with new password
+//           bcrypt.genSalt(12, (err, salt) =>
+//             bcrypt.hash(newPassword,salt, (err, hash) => {
+//               if (err) {
+//                 throw err;
+//               }
+//               user.basic.password = hash;
+//               user.save(); 
+//             })
+//           );
+//           res.json({ message: "Password Successfully Updated!", data: user, status: 1 });
         
-        } else {
-          res.json({ message: "Current Password is not match." })
+//         } else {
+//           res.json({ message: "Current Password is not match." })
           
-        }
-    }
-  } catch (err) {
-    res.json({ message: "Password does not match" });
+//         }
+//     }
+//   } catch (err) {
+//     res.json({ message: "Password does not match" });
    
-  }
-}
+//   }
+// }

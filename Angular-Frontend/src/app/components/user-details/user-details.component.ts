@@ -65,8 +65,4 @@ public profile:any;
   goToList() {
     this.router.navigate(['/user-list']);
   }
-
-  goToEdit(id: any) {
-    this.router.navigate(['/user-edit', id]);
-  }
 }

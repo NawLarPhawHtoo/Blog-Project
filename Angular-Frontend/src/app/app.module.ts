@@ -27,7 +27,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table' ;
-import { MatDialog,MatDialogRef,MatDialogModule } from '@angular/material/dialog';
+import { MatDialog,MatDialogRef,MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { UserDeleteConfirmDialogComponent } from './components/user-delete-confirm-dialog/user-delete-confirm-dialog.component';
@@ -131,7 +131,8 @@ import { ProfileEditComponent } from './components/profile-edit/profile-edit.com
     {
       provide: MatDialogRef,
       useValue: {}
-    }
+    },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
   ],
   bootstrap: [AppComponent]
 })

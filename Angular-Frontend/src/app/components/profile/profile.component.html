@@ -42,7 +42,7 @@
 
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="warn" routerLink="/passwordchange">Change Password</button>
+    <button type="button" mat-raised-button color="warn" (click)="passwordChange()">Change Password</button>
     <button type="button" color="primary" mat-raised-button (click)="editProfile()">
       Edit Profile
     </button>

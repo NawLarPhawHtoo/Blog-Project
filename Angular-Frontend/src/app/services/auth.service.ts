@@ -51,16 +51,16 @@ export class AuthService {
       );
   }
  
-  public forgetPassword(payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${this.apiUrl}/forgot-password`, payload));
+  public forgotPassword(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password`, payload);
   }
 
-  public resetPasswordUpdate(id: string, token: string, payload: any): Promise<any> {
-    return lastValueFrom(this.http.post(`${this.apiUrl}/password-reset-update/${id}/${token}`, payload));
+  public forgotPasswordUpdate(payload: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/forgot-password-update`,payload);
   }
 
-  public passwordChange(id: string, payload: any, token: string): Promise<any> {
-    return lastValueFrom(this.http.post(`${this.apiUrl}/password-change/${id}/${token}`, payload));
+  public passwordChange(id: string, payload: any, token: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/password-change/${id}/${token}`, payload);
   }
 
   private httpErrorHandler(error:HttpErrorResponse){

@@ -35,7 +35,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passwordChangeService = exports.resetPasswordService = exports.forgetPasswordService = exports.logoutService = exports.loginService = void 0;
+exports.passwordChangeService = exports.passwordResetService = exports.forgetPasswordService = exports.logoutService = exports.loginService = void 0;
 const bcrypt_1 = __importStar(require("bcrypt"));
 const crypto_1 = __importDefault(require("crypto"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
@@ -95,7 +95,7 @@ const forgetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, fu
                 token: crypto_1.default.randomBytes(16).toString("hex"),
             }).save();
         }
-        const link = `${process.env.BASE_URL}/forget-password-update/${user._id}/${token.token}`;
+        const link = `${process.env.BASE_URL}/forgot-password-update/${user._id}/${token.token}`;
         yield (0, sendEmail_1.sendEmail)((_a = user.basic) === null || _a === void 0 ? void 0 : _a.email, "Password reset", link);
         res.status(200).json({
             message: "Password reset link sent to your email account."
@@ -106,13 +106,13 @@ const forgetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, fu
     }
 });
 exports.forgetPasswordService = forgetPasswordService;
-const resetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const passwordResetService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield User_1.default.findById(req.params.userId);
+        const user = yield User_1.default.findById(req.body.userId);
         if (!user)
             return res.status(401).send("User Id does not exist");
         const passwordReset = yield password_reset_1.default.findOne({
-            token: req.params.token
+            token: req.body.token
         });
         if (!passwordReset)
             return res.status(401).send("Invalid link or expired");
@@ -129,7 +129,7 @@ const resetPasswordService = (req, res) => __awaiter(void 0, void 0, void 0, fun
         res.send("An error occured");
     }
 });
-exports.resetPasswordService = resetPasswordService;
+exports.passwordResetService = passwordResetService;
 const passwordChangeService = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield User_1.default.findById(req.params.userId)

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.passwordChange = exports.resetPassword = exports.forgotPassword = exports.logout = exports.login = void 0;
+exports.passwordChange = exports.passwordReset = exports.forgotPassword = exports.logout = exports.login = void 0;
 const auth_service_1 = require("../services/auth.service");
 const auth_service_2 = require("../services/auth.service");
 const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,10 +24,10 @@ const forgotPassword = (req, res) => __awaiter(void 0, void 0, void 0, function*
     (0, auth_service_2.forgetPasswordService)(req, res);
 });
 exports.forgotPassword = forgotPassword;
-const resetPassword = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    (0, auth_service_2.resetPasswordService)(req, res);
+const passwordReset = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    (0, auth_service_2.passwordResetService)(req, res);
 });
-exports.resetPassword = resetPassword;
+exports.passwordReset = passwordReset;
 const passwordChange = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     (0, auth_service_2.passwordChangeService)(req, res);
 });

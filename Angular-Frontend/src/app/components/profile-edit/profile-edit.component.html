@@ -1,7 +1,10 @@
-<form (ngSubmit)="updateProfile()">
-  <mat-stepper  #stepper>
-
-    <mat-step  label="Fill out Basic Info">
+<mat-card>
+<mat-card-title>
+  <h2>Profile Edit Page</h2>
+</mat-card-title>
+<form [formGroup]="profileEditForm" (ngSubmit)="updateProfile()">
+  <mat-stepper [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="basicForm" label="Fill out Basic Info">
       <label>Profile</label>
       <div class="profileinput">
         <input
@@ -50,13 +53,13 @@
         </div>
       </div>
     </mat-step>
-    <mat-step  label="Fill out your contact">
+    <mat-step [stepControl]="contactForm" label="Fill out your contact">
       <div formGroupName="contact">
         <mat-form-field appearance="fill">
           <input
             matInput
             [matDatepicker]="picker"
-           
+            [max]="today"
             placeholder="Choose your Birthday"
             formControlName="birthday"
           />
@@ -114,7 +117,7 @@
       </div>
     </mat-step>
 
-    <mat-step  label="Fill out your education">
+    <mat-step [stepControl]="educationForm" label="Fill out your education">
       <div formGroupName="education">
         <mat-form-field appearance="fill" class="full-width">
           <mat-label>Skill</mat-label>
@@ -148,14 +151,14 @@
     <mat-step>
       <ng-template matStepLabel>Summary</ng-template>
       <img [src]="profileImage" class="profileimg" />
-      <p>Your Name : </p>
-      <p>Email :  {</p>
-      <p>Date of Birth : </p>
-      <p>Type : </p>
-      <p>Gender :</p>
-      <p>Address : </p>
-      <p>Skill : </p>
-      <p>Experience : </p>
+      <p>Your Name : {{basicForm.value.name}}</p>
+      <p>Email :  {{basicForm.value.email}}</p>
+      <p>Date of Birth : {{contactForm.value.birthday| date:'dd/MM/YYYY'}}</p>
+      <p>Type : {{contactForm.value.type}}</p>
+      <p>Gender : {{contactForm.value.gender}}</p>
+      <p>Address : {{contactForm.value.address}}</p>
+      <p>Skill : {{educationForm.value.skill}}</p>
+      <p>Experience : {{educationForm.value.experience}}</p>
 
       <div>
         <button mat-raised-button color="primary" matStepperPrevious type="button">
@@ -165,4 +168,5 @@
       </div>
     </mat-step>
   </mat-stepper>
-  </form>
+</form>
+</mat-card>

@@ -9,8 +9,11 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent implements OnInit {
-  forgetPasswordForm!: FormGroup;
+  forgotPasswordForm!: FormGroup;
+  public userInfo:any;
   emailErr="";
+  public id:any
+  public token:any;
 
   constructor(
     private fb: FormBuilder,
@@ -20,7 +23,9 @@ export class ForgotPasswordComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.forgetPasswordForm = this.fb.group({
+
+   
+    this.forgotPasswordForm = this.fb.group({
       email: new FormControl('', Validators.required)
     });
     this.route.paramMap.subscribe((params:ParamMap)=>{
@@ -30,19 +35,20 @@ export class ForgotPasswordComponent implements OnInit {
     })
   }
 
-  get forgetForm(){
-    return this.forgetPasswordForm.controls;
+  get forgotForm(){
+    return this.forgotPasswordForm.controls;
   }
 
-  public forgetPassword(){
+  public forgotPassword(){
     let payload={
-      email:this.forgetPasswordForm.controls['email'].value
+      email:this.forgotPasswordForm.controls['email'].value
     };
-    this.authService.forgetPassword(payload).then((res:any)=>{
-      console.log(res);
+    console.log(payload);
+    this.authService.forgotPassword(payload).subscribe((res:any)=>{
+      console.log(res.data);
       this.emailErr="Email sent with password reset instructions.";
-      this.router.navigateByUrl('/forgot-password-update');
-    }).catch((err:any)=>{
+      this.router.navigate(["/forgot-password-update"]);
+    }),((err:any)=>{
       this.emailErr="Email does not exist";
     });
   }
